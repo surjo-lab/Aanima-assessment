@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Anime-assesment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s linear infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #48cae4, #023e8a);
+            top: 60%;
+            left: 80%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #f72585, #7209b7);
+            top: 80%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-100px) rotate(180deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(10, 14, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ff6b6b;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #ff6b6b;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(45deg, #ff5252, #ffca28);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff4757, #ff3838);
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(255, 71, 87, 0.4);
+            background: linear-gradient(45deg, #ff3742, #ff2f2f);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 120px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(254, 202, 87, 0.2));
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-pic-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            object-fit: cover;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.05);
+            border-color: #ff6b6b;
+        }
+
+        .pic-upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .pic-upload-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-email {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ff6b6b;
+            display: block;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .profile-body {
+            padding: 3rem 2rem;
+        }
+
+        .profile-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: #ff6b6b;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.2);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .form-group input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .edit-toggle {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            text-align: center;
+            animation: slideInDown 0.3s ease;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: rgba(72, 202, 228, 0.2);
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            color: #48cae4;
+        }
+
+        .alert-error {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: #ff6b6b;
+        }
+
+        .danger-zone {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            margin-top: 3rem;
+        }
+
+        .danger-title {
+            color: #ff4757;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-file {
+            display: none;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 107, 107, 0.3);
+            border-top: 3px solid #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 1rem;
+            }
+            
+            .profile-header {
+                padding: 2rem 1rem;
+            }
+            
+            .profile-body {
+                padding: 2rem 1rem;
+            }
+            
+            .profile-name {
+                font-size: 2rem;
+            }
+            
+            .profile-stats {
+                gap: 1rem;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .nav-buttons {
+                gap: 0.5rem;
+            }
+            
+            .btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 1rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .profile-pic {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+            
+            .pic-upload-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+        
+        
+        .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.nav-buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+.nav-buttons .btn {
+  padding: 0.75rem 1.6rem;
+  font-size: 0.95rem;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  line-height: 1;
+  min-width: 150px;
+}
+.btn i {
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: rgba(10, 14, 26, 0.95);
+  border-radius: 12px;
+  padding: 0.5rem 0;
+  min-width: 180px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  z-index: 999;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #ffffff;
+  background: none;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-toggle {
+  width: 44px;
+  height: 44px;
+  padding: 0 !important;
+  margin: 0;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: transparent;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: transparent;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+  <div class="nav-container">
+    <!-- Logo on the left -->
+    <a href="anime.html" class="logo">
+      <i class="fas fa-sun"></i> Anime-assesment
+    </a>
+
+  <!-- Dropdown with Info + Logout -->
+  <div class="dropdown">
+    <button class="btn btn-outline dropdown-toggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="dropdown-menu">
+      <a href="anime.html" class="dropdown-item"><i class="fas fa-home"></i> Dashboard</a>
+      <a href="about.html" class="dropdown-item"><i class="fas fa-info-circle"></i> About</a>
+      <a href="terms.html" class="dropdown-item"><i class="fas fa-file-contract"></i> Privacy</a>
+      <button class="dropdown-item" onclick="confirmLogout()" style="background: none; border: none; width: 100%; text-align: left;">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+</header>
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="profile-container">
+            <div class="profile-card">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-pic-container">
+                        <div class="profile-pic" id="profilePic"></div>
+                        <button class="pic-upload-btn" onclick="document.getElementById('profilePicInput').click()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                        <input type="file" id="profilePicInput" class="input-file" accept="image/*" onchange="handleProfilePicUpload(event)">
+                    </div>
+                    <div class="profile-name" id="profileName">Loading...</div>
+                    <div class="profile-email" id="profileEmail">Loading...</div>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-number" id="memberSince">-</span>
+                            <span class="stat-label">Member Since</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">127</span>
+                            <span class="stat-label">Anime Watched</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">89</span>
+                            <span class="stat-label">Manga Read</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Body -->
+                <div class="profile-body">
+                    <div id="profileAlert"></div>
+
+                    <!-- Account Information Section -->
+                    <div class="profile-section">
+                        <div class="section-title">
+                            <i class="fas fa-user"></i>
+                            Account Information
+                        </div>
+                        
+                        <div class="edit-toggle">
+                            <button class="btn btn-primary" id="editToggleBtn" onclick="toggleEditMode()">
+                                <i class="fas fa-edit"></i>
+                                Edit Profile
+                            </button>
+                        </div>
+
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" placeholder="Your full name" disabled>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" placeholder="Your email address" disabled>
+                            </div>
+                            
+                            <div class="form-actions" id="formActions" style="display: none;">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Save Changes
+                                </button>
+                                <button type="button" class="btn btn-outline" onclick="cancelEdit()">
+                                    <i class="fas fa-times"></i>
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Security Section -->
+                    <div class="profile-section">
+                        <div class="section-title">
+                            <i class="fas fa-shield-alt"></i>
+                            Security
+                        </div>
+                        
+                        <button class="btn btn-outline" onclick="showPasswordChangeForm()">
+                            <i class="fas fa-key"></i>
+                            Change Password
+                        </button>
+
+                        <form id="passwordForm" style="display: none; margin-top: 2rem;">
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" placeholder="Enter current password">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" placeholder="Enter new password (min 6 chars)" minlength="6">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-key"></i>
+                                    Update Password
+                                </button>
+                                <button type="button" class="btn btn-outline" onclick="hidePasswordChangeForm()">
+                                    <i class="fas fa-times"></i>
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Danger Zone -->
+                    <div class="danger-zone">
+                        <div class="danger-title">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Danger Zone
+                        </div>
+                        <p style="color: rgba(255,255,255,0.7); margin-bottom: 1rem;">
+                            Once you delete your account, there is no going back. Please be certain.
+                        </p>
+                        <button class="btn btn-danger" onclick="confirmAccountDeletion()">
+                            <i class="fas fa-trash"></i>
+                            Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Profile Management System
+const ProfileManager = {
+    currentUser: null,
+    isEditMode: false,
+    originalData: {},
+
+    // Initialize profile
+    init() {
+        this.loadCurrentUser();
+        this.displayUserData();
+        this.setupEventListeners();
+    },
+
+    // Load current user from localStorage
+    loadCurrentUser() {
+        const userData = localStorage.getItem('currentUser');
+        if (!userData) {
+            this.redirectToLogin();
+            return;
+        }
+        
+        try {
+            this.currentUser = JSON.parse(userData);
+        } catch (e) {
+            console.error('Error parsing user data:', e);
+            this.redirectToLogin();
+        }
+    },
+
+    // Redirect to login page
+    redirectToLogin() {
+        window.location.href = 'index.html';
+    },
+
+    // Display user data in the UI
+    displayUserData() {
+        if (!this.currentUser) return;
+
+        // Header data
+        document.getElementById('profileName').textContent = this.currentUser.name;
+        document.getElementById('profileEmail').textContent = this.currentUser.email;
+        
+        // Member since calculation
+        const memberSince = new Date(this.currentUser.createdAt || Date.now());
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        document.getElementById('memberSince').textContent = 
+            monthNames[memberSince.getMonth()] + ' ' + memberSince.getFullYear();
+
+        // Form fields
+        document.getElementById('fullName').value = this.currentUser.name;
+        document.getElementById('email').value = this.currentUser.email;
+
+        // Profile picture
+        this.displayProfilePicture();
+    },
+
+    // Display profile picture
+    displayProfilePicture() {
+        const profilePic = document.getElementById('profilePic');
+        
+        if (this.currentUser.profilePicture) {
+            profilePic.innerHTML = `<img src="${this.currentUser.profilePicture}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+        } else {
+            // Show initials
+            const initials = this.currentUser.name
+                .split(' ')
+                .map(n => n[0])
+                .join('')
+                .toUpperCase()
+                .slice(0, 2);
+            profilePic.textContent = initials;
+        }
+    },
+
+    // Setup event listeners
+    setupEventListeners() {
+        // Profile form submission
+        document.getElementById('profileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveProfileChanges();
+        });
+
+        // Password form submission
+        document.getElementById('passwordForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.changePassword();
+        });
+    },
+
+    // Toggle edit mode
+    toggleEditMode() {
+        this.isEditMode = !this.isEditMode;
+        const inputs = document.querySelectorAll('#profileForm input');
+        const editBtn = document.getElementById('editToggleBtn');
+        const formActions = document.getElementById('formActions');
+
+        if (this.isEditMode) {
+            // Store original data
+            this.originalData = {
+                name: document.getElementById('fullName').value,
+                email: document.getElementById('email').value
+            };
+
+            // Enable inputs
+            inputs.forEach(input => input.disabled = false);
+            editBtn.innerHTML = '<i class="fas fa-times"></i> Cancel Edit';
+            editBtn.className = 'btn btn-outline';
+            formActions.style.display = 'flex';
+        } else {
+            // Disable inputs and restore original data
+            inputs.forEach(input => input.disabled = true);
+            document.getElementById('fullName').value = this.originalData.name;
+            document.getElementById('email').value = this.originalData.email;
+            editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit Profile';
+            editBtn.className = 'btn btn-primary';
+            formActions.style.display = 'none';
+            this.clearAlert();
+        }
+    },
+
+    // Cancel edit mode
+    cancelEdit() {
+        this.isEditMode = false;
+        this.toggleEditMode();
+    },
+
+    // Save profile changes
+    saveProfileChanges() {
+        const newName = document.getElementById('fullName').value.trim();
+        const newEmail = document.getElementById('email').value.trim();
+
+        // Validation
+        if (!newName || !newEmail) {
+            this.showAlert('Please fill in all fields.', 'error');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(newEmail)) {
+            this.showAlert('Please enter a valid email address.', 'error');
+            return;
+        }
+
+        // Check if email is already taken by another user
+        if (newEmail !== this.currentUser.email) {
+            const users = JSON.parse(localStorage.getItem('otakuUsers') || '[]');
+            const emailExists = users.find(user => user.email === newEmail && user.id !== this.currentUser.id);
+            
+            if (emailExists) {
+                this.showAlert('Email address is already registered.', 'error');
+                return;
+            }
+        }
+
+        this.showLoading(true);
+
+        // Simulate API call
+        setTimeout(() => {
+            // Update current user data
+            this.currentUser.name = newName;
+            this.currentUser.email = newEmail;
+
+            // Update in users array
+            const users = JSON.parse(localStorage.getItem('otakuUsers') || '[]');
+            const userIndex = users.findIndex(user => user.id === this.currentUser.id);
+            
+            if (userIndex !== -1) {
+                users[userIndex] = this.currentUser;
+                localStorage.setItem('otakuUsers', JSON.stringify(users));
+            }
+
+            // Update current user in localStorage
+            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+
+            // Update display
+            this.displayUserData();
+            this.toggleEditMode();
+            this.showAlert('Profile updated successfully!', 'success');
+            this.showLoading(false);
+        }, 1500);
+    },
+
+    // Change password
+    changePassword() {
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        // Validation
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            this.showAlert('Please fill in all password fields.', 'error');
+            return;
+        }
+
+        if (currentPassword !== this.currentUser.password) {
+            this.showAlert('Current password is incorrect.', 'error');
+            return;
+        }
+
+        if (newPassword.length < 6) {
+            this.showAlert('New password must be at least 6 characters long.', 'error');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            this.showAlert('New passwords do not match.', 'error');
+            return;
+        }
+
+        if (newPassword === currentPassword) {
+            this.showAlert('New password must be different from current password.', 'error');
+            return;
+        }
+
+        this.showLoading(true);
+
+        // Simulate API call
+        setTimeout(() => {
+            // Update password
+            this.currentUser.password = newPassword;
+
+            // Update in users array
+            const users = JSON.parse(localStorage.getItem('otakuUsers') || '[]');
+            const userIndex = users.findIndex(user => user.id === this.currentUser.id);
+            
+            if (userIndex !== -1) {
+                users[userIndex] = this.currentUser;
+                localStorage.setItem('otakuUsers', JSON.stringify(users));
+            }
+
+            // Update current user in localStorage
+            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+
+            // Clear form and hide it
+            document.getElementById('passwordForm').reset();
+            this.hidePasswordChangeForm();
+            
+            this.showAlert('Password changed successfully!', 'success');
+            this.showLoading(false);
+        }, 1500);
+    },
+
+    // Handle profile picture upload
+    handleProfilePicUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            this.showAlert('Please select a valid image file.', 'error');
+            return;
+        }
+
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            this.showAlert('Image size should be less than 5MB.', 'error');
+            return;
+        }
+
+        this.showLoading(true);
+
+        // Read file as data URL
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            setTimeout(() => {
+                // Update user data
+                this.currentUser.profilePicture = e.target.result;
+
+                // Update in localStorage
+                const users = JSON.parse(localStorage.getItem('otakuUsers') || '[]');
+                const userIndex = users.findIndex(user => user.id === this.currentUser.id);
+                
+                if (userIndex !== -1) {
+                    users[userIndex] = this.currentUser;
+                    localStorage.setItem('otakuUsers', JSON.stringify(users));
+                }
+
+                localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+
+                // Update display
+                this.displayProfilePicture();
+                this.showAlert('Profile picture updated successfully!', 'success');
+                this.showLoading(false);
+            }, 1000);
+        };
+
+        reader.readAsDataURL(file);
+    },
+
+    // Show/hide password change form
+    showPasswordChangeForm() {
+        document.getElementById('passwordForm').style.display = 'block';
+        document.querySelector('[onclick="showPasswordChangeForm()"]').style.display = 'none';
+        this.clearAlert();
+    },
+
+    hidePasswordChangeForm() {
+        document.getElementById('passwordForm').style.display = 'none';
+        document.querySelector('[onclick="showPasswordChangeForm()"]').style.display = 'inline-flex';
+        document.getElementById('passwordForm').reset();
+        this.clearAlert();
+    },
+
+    // Delete account
+    deleteAccount() {
+        this.showLoading(true);
+        
+        setTimeout(() => {
+            // Remove user from users array
+            const users = JSON.parse(localStorage.getItem('otakuUsers') || '[]');
+            const filteredUsers = users.filter(user => user.id !== this.currentUser.id);
+            localStorage.setItem('otakuUsers', JSON.stringify(filteredUsers));
+
+            // Remove current user data
+            localStorage.removeItem('currentUser');
+
+            // Redirect to login
+            this.showLoading(false);
+            alert('Account deleted successfully. You will be redirected to the login page.');
+            this.redirectToLogin();
+        }, 1500);
+    },
+
+    // Logout user
+    logout() {
+        localStorage.removeItem('currentUser');
+        this.redirectToLogin();
+    },
+
+    // Show alert message
+    showAlert(message, type) {
+        const alertDiv = document.getElementById('profileAlert');
+        alertDiv.innerHTML = `
+            <div class="alert alert-${type}">
+                ${message}
+            </div>
+        `;
+        
+        // Auto hide after 5 seconds
+        setTimeout(() => {
+            this.clearAlert();
+        }, 5000);
+    },
+
+    // Clear alert message
+    clearAlert() {
+        document.getElementById('profileAlert').innerHTML = '';
+    },
+
+    // Show/hide loading overlay
+    showLoading(show) {
+        const overlay = document.getElementById('loadingOverlay');
+        overlay.style.display = show ? 'flex' : 'none';
+    }
+};
+
+// Global functions for HTML onclick events
+function toggleEditMode() {
+    ProfileManager.toggleEditMode();
+}
+
+function cancelEdit() {
+    ProfileManager.cancelEdit();
+}
+
+function handleProfilePicUpload(event) {
+    ProfileManager.handleProfilePicUpload(event);
+}
+
+function showPasswordChangeForm() {
+    ProfileManager.showPasswordChangeForm();
+}
+
+function hidePasswordChangeForm() {
+    ProfileManager.hidePasswordChangeForm();
+}
+
+function confirmAccountDeletion() {
+    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        if (confirm('This will permanently delete all your data. Are you absolutely sure?')) {
+            ProfileManager.deleteAccount();
+        }
+    }
+}
+
+function confirmLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+        ProfileManager.logout();
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    ProfileManager.init();
+});
+
+// Handle page visibility to check authentication
+document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+        // Check if user is still logged in when page becomes visible
+        const userData = localStorage.getItem('currentUser');
+        if (!userData) {
+            window.location.href = 'index.html';
+        }
+    }
+});
+</script>
+</body>
+</html>
